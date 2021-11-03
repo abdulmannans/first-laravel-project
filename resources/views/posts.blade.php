@@ -9,6 +9,6 @@
 <body>
     <h1>My BLog</h1>
     
-    <p>{{ $post }}</p>
+    <p>{{ $post->body }}</p>
 </body>
 </html>

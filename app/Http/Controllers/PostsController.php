@@ -1,24 +1,30 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
-use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
-    public function show($post){
-        $posts = [
-            "first-post" => 'Hello This is my first blog post',
-            'second-post' => 'Getting hang of blogging'
-        ];
+    public function show($slug){
+
+        $post = DB::table('posts')->where('slug', $slug)->first();
+        
+    
+
+
+        // $posts = [
+        //     "first-post" => 'Hello This is my first blog post',
+        //     'second-post' => 'Getting hang of blogging'
+        // ];
     
     
-        if(! array_key_exists($post, $posts)){
-            abort(404, 'Sorry, that post was not found.'); 
-        }
+        // if(! array_key_exists($post, $posts)){
+        //     abort(404, 'Sorry, that post was not found.'); 
+        // }
     
         return view('posts', [
-            'post' => $posts[$post]
+            'post' => $post
         ]);
     }
 }

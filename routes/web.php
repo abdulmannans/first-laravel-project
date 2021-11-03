@@ -23,7 +23,4 @@ Route::get('/test', function () {
     ]);
 });
 
-Route::get('/posts/{post}',function($post){
-    return $post;
-
-});
+Route::get('/posts/{post}', 'PostsController@show');

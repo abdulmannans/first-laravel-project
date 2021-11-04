@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use App\Post;
 
 
 class PostsController extends Controller
 {
     public function show($slug){
 
-        $post = DB::table('posts')->where('slug', $slug)->first();
-        
-    
+       
 
 
         // $posts = [
@@ -24,7 +23,7 @@ class PostsController extends Controller
         // }
     
         return view('posts', [
-            'post' => $post
+            'post' => Post::where('slug', $slug)->firstOrFail()
         ]);
     }
 }

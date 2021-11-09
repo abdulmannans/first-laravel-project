@@ -20,7 +20,9 @@ Route::get('/contact', function () {
 });
 
 Route::get('/about', function () {
-    return view('about');
+    return view('about',[
+        'articles'=> App\Article::take(3)->latest()->get()
+    ]);
 });
 Route::get('/test', function () {
     $name = request('name');
@@ -29,5 +31,9 @@ Route::get('/test', function () {
         'name' => $name
     ]);
 });
+
+Route::get('/articles', 'ArticlesController@index');
+
+Route::get('/articles/{article}', 'ArticlesController@show');
 
 Route::get('/posts/{post}', 'PostsController@show');

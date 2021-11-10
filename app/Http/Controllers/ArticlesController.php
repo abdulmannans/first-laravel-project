@@ -4,27 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
+use App\Tag;
 
 class ArticlesController extends Controller
 {
     public function show(Article $article)
     {
-        // Render a List of a resource.
+        // Render a single resource.
 
         return view('articles.show', compact('article'));
     }
 
-    public function index()
+    public function index() 
     {
-        // Show a single resource.
-        $articles = Article::latest()->get();
+        // Show a list of resource.
+        if(request('tag')){
+            $articles = Tag::where('name', request('tag'))->firstOrFail()->article;
+        }else{
+            $articles = Article::latest()->get();
+        }
+
+        
         return view('articles.index', compact('articles'));
     }
 
     public function create()
     {
         // Shows a view to create a new resource.
-        return view('articles.create');
+        $tags = Tag::all();
+        return view('articles.create', compact('tags'));
 
     }
 
@@ -32,9 +40,13 @@ class ArticlesController extends Controller
     {
         // Persist the new resource.
         
-        Article::create($this->validateArticle());
+       $article= new  Article($this->validateArticle());
+       $article->user_id = 1;
+       $article->save();
+       $article->tags()->attach(request('tags'));
 
-        return redirect('articles ');
+
+        return redirect('articles');
     }
 
     public function edit(Article $article)
